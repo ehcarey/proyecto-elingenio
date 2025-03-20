@@ -1,0 +1,254 @@
+
+
+   
+   <!DOCTYPE html>
+   <html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Ferretería El Ingenio</title>
+       <link rel="stylesheet" href="/css/aside.css">
+       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+       <style>
+   
+           .form-container {
+               max-width: 1600px;
+               margin: auto;
+           }
+   
+           .table-container {
+               overflow-x: auto;
+                 }
+       </style>
+   </head>
+   <body>
+   
+   <nav class="sidebar">
+       <div class="logo text-center">
+           <img src="/img/Imagen278.jpg" alt="logo" class="logo-img">
+
+       </div>
+       <ul class="list-unstyled">
+          
+   
+           <li><i class="fa-solid fa-bag-shopping"></i> <a href="/dashboard">dashboard</a></li>
+           <li><i class="fa-solid fa-bag-shopping"></i> <a href="/ventas">Ventas</a></li>
+           <li><i class="fa-solid fa-cart-shopping"></i> <a href="/compras">Compras</a></li>
+           <li><i class="fa-solid fa-cubes"></i> <a href="/inventario">Inventario</a></li>
+           <li><i class="fa-solid fa-store"></i> <a href="/productos">Productos</a></li>
+           <li><i class="fa-solid fa-star"></i> <a href="/proveedores  ">Proveedores</a></li>
+           <li><i class="fa-solid fa-users"></i> <a href="/clientes">Clientes</a></li>
+           <li><i class="fa-solid fa-circle-user"></i> <a href="/usuarios">Usuarios</a></li>
+   
+       </ul>
+   </nav>
+   
+   <div class="main-content">
+       <header class="header d-flex justify-content-between align-items-center p-3">
+         <!-- Campo de búsqueda -->
+         <input type="text" class="form-control" placeholder="Buscar...">
+     
+         <!-- Enlace de cerrar sesión -->
+         <a href="#" th:href="@{/logout}" class="btn btn-danger">Cerrar Sesión</a>
+       </header>
+   
+
+    <div class="container mt-4 form-container">
+        <h1>Nueva venta</h1>
+
+
+        <form th:action="@{${venta.id != null} ? '/ventas/actualizar/' + ${venta.id} : '/ventas'}"
+              th:object="${venta}" method="post" class="mb-4">
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Cliente:</label>
+                <select th:field="*{cliente.id}" class="form-control" required>
+                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Producto:</label>
+                <select th:field="*{producto.id}" class="form-control" required>
+                    <option th:each="producto : ${productos}" th:value="${producto.id}" th:text="${producto.descripcion}"></option>
+                </select>
+            </div>
+
+            <div class="row g-3">
+                <div class="col">
+                <label>Cantidad:</label>
+                <input type="number" id="cantidad" th:field="*{cantidad}" class="form-control" oninput="calcular()" required/>
+            </div>
+
+            <div class="col">
+                <label>Fecha:</label>
+                <input type="date" th:field="*{fecha}" class="form-control" required/>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Valor Unitario:</label>
+                <input type="text" id="valorUnitario" th:field="*{valorUnitario}" class="form-control" oninput="calcular()" required/>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Total:</label>
+                <input type="text" id="total" th:field="*{total}" class="form-control" readonly/>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Método de Pago:</label>
+                <input type="text" th:field="*{metodoPago}" class="form-control" required/>
+            </div>
+
+            <div class="col-md-6 mb-3"> 
+                <label>Subtotal:</label>
+                <input type="text" id="subtotal" th:field="*{subtotal}" class="form-control" readonly/>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>IVA:</label>
+                <input type="text" id="iva" th:field="*{iva}" class="form-control" readonly/>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Tipo de Documento:</label>
+                 <select id="tipodocumento" class="form-control" th:field="*{tipodocumento}">
+                    <option value="">Seleccione</option>
+                    <option value="Cotizacion">Cotizacion</option>
+                    <option value="Recibo de Caja">Recibo de Caja</option>
+                    <option value="Factura">Factura</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Costo:</label>
+                <input type="text" th:field="*{costo}" class="form-control" required/>
+            </div>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+        </form>
+    </div>
+
+        <h1>Lista de Ventas</h1>
+
+
+        <div class="table-container">
+            <table class="table" id="Tablepaginator">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Valor Unitario</th>
+                    <th>Subtotal</th>
+                    <th>IVA</th>
+                    <th>Total</th>
+                    <th>Costo</th>
+                    <th>Método de Pago</th>
+                    <th>Tipo de Documento</th>
+                    <th>Cliente</th> <!-- Nueva columna para el cliente -->
+                    
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="venta : ${ventas}">
+                    <td th:text="${venta.id}"></td>
+                    <td th:text="${venta.fecha}"></td>
+                    <td th:text="${venta.producto.descripcion}"></td>
+                    <td th:text="${venta.cantidad}"></td>
+                    <td th:text="${venta.valorUnitario}"></td>
+                    <td th:text="${venta.subtotal}"></td>
+                    <td th:text="${venta.iva}"></td>
+                    <td th:text="${venta.total}"></td>
+                    <td th:text="${venta.costo}"></td>
+                    <td th:text="${venta.metodoPago}"></td>
+                    <td th:text="${venta.tipodocumento}"></td>
+                    <td th:text="${venta.cliente.nombre}"></td>
+                    
+                    <td>
+                        <!-- Ícono de Editar en Amarillo -->
+                        <a th:href="@{/ventas/editar/{id}(id=${venta.id})}" title="Editar">
+                            <i class="fa-solid fa-pen-to-square" style="color: #ffc107; font-size: 1.2em;"></i>
+                        </a>
+                    
+                        <!-- Ícono de Eliminar en Rojo -->
+                        <a th:href="@{/ventas/eliminar/{id}(id=${venta.id})}" 
+                           th:onclick="return confirm('¿Estás seguro de que quieres eliminar esta venta?');" 
+                           title="Eliminar">
+                            <i class="fas fa-trash-alt" style="color: #dc3545; font-size: 1.2em;"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function calcular() {
+        // Obtener los valores de los campos
+        const cantidad = document.getElementById('cantidad').value;
+        const valorUnitario = document.getElementById('valorUnitario').value;
+
+        // Convertir a números
+        const cantidadNum = parseInt(cantidad) || 0;
+        const valorUnitarioNum = parseFloat(valorUnitario) || 0;
+
+        // Calcular total, subtotal e IVA
+        const total = cantidadNum * valorUnitarioNum;
+        const subtotal = total;
+        const iva = total * 0.19; // Asumiendo que el IVA es del 19%
+
+        // Actualizar los campos
+        document.getElementById('total').value = total.toFixed(2);
+        document.getElementById('subtotal').value = subtotal.toFixed(2);
+        document.getElementById('iva').value = iva.toFixed(2);
+    }
+</script>
+<!-- JavaScript de Bootstrap y DataTables -->
+<!-- jQuery, Popper.js, Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+
+<!-- Custom JavaScript for DataTables -->
+<script>
+    $(document).ready(function() {
+        $('#Tablepaginator').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros disponibles",
+                "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "previous": "Anterior",
+                    "next": "Siguiente"
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

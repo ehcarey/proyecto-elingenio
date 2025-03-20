@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ferretería El Ingenio</title>
+  <link rel="stylesheet" href="/css/aside.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+
+    .form-container {
+        max-width: 1600px;
+        margin: auto;
+    }
+
+    .table-container {
+        overflow-x: auto;
+          }
+
+
+/* CSS */
+.button-2 {
+  background-color: rgba(51, 51, 51, 0.05);
+  border-radius: 8px;
+  border-width: 0;
+  color: #333333;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 10px 12px;
+  text-align: center;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="logo text-center">
+    <img src="/img/Imagen278.jpg" alt="logo" class="logo-img">
+
+  </div>
+  <ul class="list-unstyled">
+       
+
+    <li><i class="fa-solid fa-bag-shopping"></i> <a href="/dashboard">dashboard</a></li>
+    <li><i class="fa-solid fa-bag-shopping"></i> <a href="/ventas">Ventas</a></li>
+    <li><i class="fa-solid fa-cart-shopping"></i> <a href="/compras">Compras</a></li>
+    <li><i class="fa-solid fa-cubes"></i> <a href="/inventario">Inventario</a></li>
+    <li><i class="fa-solid fa-store"></i> <a href="/productos">Productos</a></li>
+    <li><i class="fa-solid fa-star"></i> <a href="/proveedores  ">Proveedores</a></li>
+    <li><i class="fa-solid fa-users"></i> <a href="/clientes">Clientes</a></li>
+    <li><i class="fa-solid fa-circle-user"></i> <a href="/usuarios">Usuarios</a></li>
+
+</ul>
+</nav>
+
+<div class="main-content">
+  <header class="header d-flex justify-content-between align-items-center p-3">
+    <!-- Campo de búsqueda -->
+    <input type="text" class="form-control" placeholder="Buscar...">
+
+    <!-- Enlace de cerrar sesión -->
+    <a href="#" th:href="@{/logout}" class="btn btn-danger">Cerrar Sesión</a>
+  </header>
+
+  <div class="container mt-4 form-container">
+    <h1>Agregar Nuevo Proveedor</h1>
+
+    <form th:action="@{/proveedores/guardar}" th:object="${proveedor}" method="post">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" th:field="*{nombre}" class="form-control" id="nombre" required>
+      </div>
+      <div class="form-group">
+        <label for="RUT">RUT</label>
+        <input type="text" th:field="*{RUT}" class="form-control" id="RUT" required>
+      </div>
+      <div class="form-group">
+        <label for="direccion">Dirección</label>
+        <input type="text" th:field="*{direccion}" class="form-control" id="direccion">
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="text" th:field="*{telefono}" class="form-control" id="telefono">
+      </div>
+      <div class="text-center mt-2">
+      <button type="submit" class="btn btn-success">Guardar</button>
+      <a href="/proveedores" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+<p>
+
+</p>
+  <h2>Lista de proveedores</h2>
+  <table class="table table-striped table-bordered"  id="Tablepaginator">
+    <thead class="table">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>RUT</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="proveedor : ${proveedores}">
+        <td th:text="${proveedor.id}"></td>
+        <td th:text="${proveedor.nombre}"></td>
+        <td th:text="${proveedor.RUT}"></td>
+        <td th:text="${proveedor.direccion}"></td>
+        <td th:text="${proveedor.telefono}"></td>
+        <td>
+          <!-- Ícono de Editar en Amarillo -->
+          <a th:href="@{/proveedores/editar/{id}(id=${proveedor.id})}" title="Editar">
+              <i class="fa-solid fa-pen-to-square" style="color: #ffc107; font-size: 1.2em;"></i>
+          </a>
+      
+          <!-- Ícono de Eliminar en Rojo -->
+          <a th:href="@{/proveedores/eliminar/{id}(id=${proveedor.id})}" 
+          th:onclick="return confirm('¿Estás seguro de que quieres eliminar este proveedor?');" 
+          title="Eliminar">
+              <i class="fas fa-trash-alt" style="color: #dc3545; font-size: 1.2em;"></i>
+          </a>
+      </td>      
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- JavaScript de Bootstrap y DataTables -->
+<!-- jQuery, Popper.js, Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+
+<!-- Custom JavaScript for DataTables -->
+<script>
+  $(document).ready(function() {
+      $('#Tablepaginator').DataTable({
+          "paging": true,
+          "lengthChange": true,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "language": {
+              "lengthMenu": "Mostrar _MENU_ registros por página",
+              "zeroRecords": "No se encontraron resultados",
+              "info": "Mostrando página _PAGE_ de _PAGES_",
+              "infoEmpty": "No hay registros disponibles",
+              "infoFiltered": "(filtrado de _MAX_ registros totales)",
+              "search": "Buscar:",
+              "paginate": {
+                  "previous": "Anterior",
+                  "next": "Siguiente"
+              }
+          }
+      });
+  });
+</script>
+
+</body>
+</html>

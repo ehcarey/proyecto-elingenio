@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolSolutions - Inicio de Sesión</title>
+    
+    <!-- Bootstrap 5 CSS via Webjars -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background: linear-gradient(120deg, rgba(248, 249, 250, 0.9), rgba(233, 236, 239, 0.9)),
+                        url('/img/Imagen1.jpg') repeat;
+            background-size: 50px 50px; /* Small repeating icon */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }.login-input {
+    max-width: 300px; /* Define un ancho fijo para ambos campos */
+    margin: 0 auto;   /* Centra los inputs horizontalmente */
+}
+
+.form-label {
+    display: block;   /* Asegura que las etiquetas estén arriba de los inputs */
+    margin-bottom: 5px; /* Espacio entre etiqueta y campo */
+}
+.login-form {
+    padding: 20px;
+    background-color: #f8f9fa; /* Fondo claro opcional */
+    border-radius: 8px; /* Bordes redondeados opcional */
+}
+
+.login-input {
+    width: 400px; /* Ancho fijo, ajusta este valor según quieras */
+    max-width: 100%; /* Evita que se desborde del contenedor */
+    margin: 0 auto;  /* Centra el input */
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px; /* Espacio entre etiqueta y campo */
+}
+
+.extra-links {
+    margin-top: 15px; /* Espacio encima de los enlaces */
+}
+.extra-links {
+    margin-top: 15px; /* Espacio encima de los enlaces */
+}
+        .login-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            padding: 2.5rem; /* Reduced padding slightly for tighter layout */
+            max-width: 480px;
+            width: 100%;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('/img/tools-background.png') no-repeat center/cover;
+            opacity: 0.03;
+            z-index: 0;
+            border-radius: 20px;
+        }
+        .login-card > * {
+            position: relative;
+            z-index: 1;
+        }
+        .logo {
+            max-width: 130px;
+            margin: 0 auto 1.5rem; /* Reduced bottom margin */
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.1);
+        }
+        h1 {
+            font-size: 1.8rem; /* Slightly smaller for balance */
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 1.75rem; /* Adjusted spacing */
+            letter-spacing: 0.5px; /* Added subtle letter spacing */
+        }
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem; /* Consistent spacing below labels */
+        }
+        .form-control {
+            border-radius: 30px;
+            padding: 0.9rem; /* Slightly larger padding for comfort */
+            border: 1px solid #ced4da;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #e77547;
+            box-shadow: 0 0 10px rgba(231, 117, 71, 0.4);
+        }
+   .btn-primary {
+    background-color: #e77547;
+    border: none;
+    padding: 0.9rem; /* Consistente con los inputs */
+    font-weight: 600;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+}
+
+        .btn-primary:hover {
+            background-color: #d66c3f;
+            transform: translateY(-3px);
+        }
+        .btn-link {
+            color: #e77547;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .btn-link:hover {
+            color: #d66c3f;
+            text-decoration: underline;
+        }
+        .alert {
+            border-radius: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 1.25rem; /* Reduced for tighter spacing */
+            padding: 0.75rem;
+        }
+        .extra-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.25rem; /* Adjusted spacing */
+            font-size: 0.9rem;
+            gap: 1rem; /* Added gap for better separation */
+        }
+        footer {
+            position: absolute;
+            bottom: 20px; /* Slightly higher for balance */
+            width: 100%;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 576px) {
+            .login-card {
+                padding: 2rem;
+                margin: 1rem; /* Slightly tighter margin */
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .extra-links {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem; /* Adjusted gap for mobile */
+            }
+            .form-control, .btn-primary {
+                padding: 0.75rem; /* Smaller padding on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="login-card">
+    <img src="/img/Imagen1.jpg" alt="ToolSolutions Logo" class="logo">
+    <h1>Inicio de Sesión</h1>
+
+    <!-- Error message for failed login -->
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>Usuario o contraseña incorrectos.
+    </div>
+
+    <!-- Success message for logout -->
+    <div th:if="${param.logout}" class="alert alert-success" role="alert">
+        <i class="fas fa-check-circle me-2"></i>Has cerrado sesión correctamente.
+    </div>
+
+    <!-- Success messages for registration and password reset -->
+    <div th:if="${param.success}" class="alert alert-success" role="alert">
+        <i class="fas fa-check-circle me-2"></i>Registro exitoso. Por favor, inicia sesión.
+    </div>
+    <div th:if="${param.resetSent}" class="alert alert-success" role="alert">
+        <i class="fas fa-check-circle me-2"></i>Enlace de recuperación enviado. Revisa tu correo.
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6"> <!-- Contenedor más ancho -->
+                <form th:action="@{/login}" method="post" class="login-form">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Usuario</label>
+                        <input type="text" class="form-control login-input" id="username" name="username"
+                               placeholder="Email o ID" required autofocus>
+                    </div>
+                    <p></p>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control login-input" id="password" name="password"
+                               placeholder="Ingrese su contraseña" required>
+                    </div>
+                    <p></p>
+           
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                    </div>
+                    <div class="extra-links text-center mb-3">
+                        <a th:href="@{/test-registro}" class="btn-link me-3">Crear Cuenta</a>
+                        <a th:href="@{/forgot-password}" class="btn-link me-3">¿Olvidaste tu contraseña?</a>
+                    </div>
+            
+            
+                    <div class="d-grid">
+                        <a th:href="@{/home}" style="display: block; width: auto; max-width: 140px; margin-left: auto; margin-right: auto; text-align: center;">Volver</a>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2025 ToolSolutions. Todos los derechos reservados.</p>
+</footer>
+
+<!-- Scripts -->
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
