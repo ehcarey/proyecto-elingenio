@@ -606,3 +606,114 @@ body {
       height: 180px;
   }
 }
+
+
+
+/* Proveedores Section */
+.proveedores-section {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+.proveedores-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.title-h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #1a2b49;
+  margin-bottom: 15px;
+}
+
+.text {
+  font-size: 1rem;
+  color: #6c757d;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.proveedores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.proveedor-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.proveedor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.proveedor-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a2b49;
+  margin-bottom: 15px;
+}
+
+.proveedor-detail {
+  font-size: 0.95rem;
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+
+.proveedor-detail strong {
+  color: #333;
+}
+
+.proveedor-detail a {
+  color: #e77547;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.proveedor-detail a:hover {
+  color: #d66c3f;
+  text-decoration: underline;
+}
+
+.btn-contact {
+  background-color: #e77547;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+.btn-contact:hover {
+  background-color: #d66c3f;
+  transform: translateY(-2px);
+}
+
+.btn-load-more {
+  display: block;
+  background-color: #e77547;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 40px auto 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-load-more:hover {
+  background-color: #d66c3f;
+  transform: translateY(-3px);
+}
