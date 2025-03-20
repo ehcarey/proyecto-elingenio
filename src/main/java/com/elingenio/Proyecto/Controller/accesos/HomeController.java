@@ -18,7 +18,7 @@ public class HomeController {
 
     @GetMapping("/pages")
     public String pages() {
-        return "ventana-home/ventana-proveedores";
+        return "ventana-secundaria/ventana-proveedores";
     }
 
     @GetMapping("/test-registro")
